@@ -1,9 +1,9 @@
 {
   "name": "smart-auth-validator",
   "version": "1.0.0",
-  "description": "Zero-regex, type-safe authentication and form validation for Fastify, Express, and NestJS",
+  "description": "Zero-regex, type-safe authentication and form validation for Fastify and Express",
   "author": "Muhammad Burhan Chughtai",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -32,9 +32,12 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^25.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
     "eslint": "^9.39.2",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.54.0",
     "vitest": "^4.0.18"
   },
   "engines": {
@@ -47,7 +50,7 @@
   "bugs": {
     "url": "https://github.com/chughtaiburhan/smart-auth-validator/issues"
   },
-  "homepage": "https://github.com/chughtaiburhan",
+  "homepage": "https://github.com/chughtaiburhan/smart-auth-validator#readme",
   "keywords": [
     "auth",
     "validation",
@@ -60,7 +63,6 @@
     "middleware",
     "fastify",
     "express",
-    "nestjs",
     "form-validation",
     "backend"
   ]
