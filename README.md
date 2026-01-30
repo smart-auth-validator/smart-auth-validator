@@ -1,3 +1,6 @@
+# smart-auth-validator
+Smart, type-safe, zero-regex validation middleware for Node.js backends. Supports Fastify and Express out-of-the-box. Provides standard rules for email, password, name, phone, and more. Built for backend developers to avoid repetitive validation logic.
+
 # Smart Auth Validator
 
 [![npm version](https://img.shields.io/npm/v/smart-auth-validator.svg)](https://www.npmjs.com/package/smart-auth-validator)
