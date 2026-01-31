@@ -19,12 +19,12 @@
     "dist"
   ],
   "sideEffects": false,
-  "scripts": {
-    "build": "tsup",
-    "test": "vitest",
-    "lint": "eslint src --max-warnings=0",
-    "prepublishOnly": "npm run lint && npm run test && npm run build"
-  },
+ "scripts": {
+  "test": "vitest run",
+  "lint": "eslint src --max-warnings=0",
+  "build": "tsup",
+  "prepublishOnly": "npm run lint && npm run test && npm run build"
+},
   "peerDependencies": {
     "express": "^4.22.1",
     "fastify": "^4 || ^5"

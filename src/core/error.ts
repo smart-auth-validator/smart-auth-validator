@@ -1,20 +1,17 @@
 import type { FieldRule, ValidationError, ValidationErrorCode } from "../types/schema";
 
 export const ERROR_MESSAGES: Record<ValidationErrorCode, (field: string, rule?: FieldRule) => string> = {
-  REQUIRED: (field) => `${field.charAt(0).toUpperCase() + field.slice(1)} is required`,
-  INVALID_TYPE: (field) => `${field.charAt(0).toUpperCase() + field.slice(1)} must be a string`,
-  MIN_LENGTH: (field, rule) => 
-    rule?.messages?.min ?? `${field.charAt(0).toUpperCase() + field.slice(1)} must be at least ${rule?.min || 1} characters`,
-  MAX_LENGTH: (field, rule) => 
-    rule?.messages?.max ?? `${field.charAt(0).toUpperCase() + field.slice(1)} must be ${rule?.max || 50} characters or less`,
-  PATTERN: (field, rule) => 
-    rule?.messages?.pattern ?? `${field.charAt(0).toUpperCase() + field.slice(1)} has invalid format`
+  REQUIRED: (field) => `${field} is required`,
+  INVALID_TYPE: (field) => `${field} must be valid ${field}`,
+  MIN_LENGTH: (field, rule) => `${field} must be at least ${rule?.min} characters`,
+  MAX_LENGTH: (field, rule) => `${field} must be maximum ${rule?.max} characters`,
+  PATTERN: (field) => `${field} format is invalid`,
+  WEAK_PASSWORD: () => "Password too weak (8+ chars, 1 upper, 1 lower, 1 number, 1 special char)",
+  INVALID_PHONE: () => "Phone must be a valid international/local number (+923001234567)",
+  INVALID_URL: () => "URL must be valid (https://example.com)"
 };
 
 export function createError(field: string, code: ValidationErrorCode, rule?: FieldRule): ValidationError {
-  return {
-    field,
-    code,
-    message: ERROR_MESSAGES[code](field, rule)
-  };
+  const message = rule?.messages?.[code] || ERROR_MESSAGES[code](field, rule);
+  return { field, code, message };
 }

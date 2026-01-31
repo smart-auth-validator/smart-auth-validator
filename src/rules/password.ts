@@ -1,12 +1,13 @@
-import type { FieldRule } from "../types/schema";
+import { FieldRule } from "../types/schema";
 
 export const passwordRule: FieldRule = {
-  min: 6,
-  max: 16,
-  regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)/,
-  message: {
-    min: "Password must be at least 6 characters",
-    max: "Password must be under 16 characters",
-    regex: "Password must include upper, lower and number"
+  min: 8,
+  max: 128,
+  regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/,
+  messages: {
+    REQUIRED: "Password is required",
+    MIN_LENGTH: "Password must be at least 8 characters",
+    MAX_LENGTH: "Password must be under 128 characters",
+    PATTERN: "Password must include uppercase, lowercase, number, and special character"
   }
 };

@@ -1,17 +1,13 @@
 import type { FieldRule, ValidationError } from "../types/schema";
 import { createError } from "../core/error";
 
-export function applyRule(
-  field: string,
-  value: unknown,
-  rule: FieldRule
-): ValidationError | null {
+export function applyRule(field: string, value: unknown, rule: FieldRule): ValidationError | null {
   if (value === undefined || value === null || value === "") {
     return createError(field, "REQUIRED", rule);
   }
 
   if (typeof value !== "string") {
-    return createError(field, "INVALID_TYPE");
+    return createError(field, "INVALID_TYPE", rule);
   }
 
   const strValue = value as string;
@@ -24,8 +20,10 @@ export function applyRule(
     return createError(field, "MAX_LENGTH", rule);
   }
 
-
   if (rule.regex && !rule.regex.test(strValue)) {
+    if (field === "phone") return createError(field, "INVALID_PHONE", rule);
+    if (field === "url") return createError(field, "INVALID_URL", rule);
+    if (field === "password") return createError(field, "WEAK_PASSWORD", rule);
     return createError(field, "PATTERN", rule);
   }
 
