@@ -13,27 +13,40 @@ export function applyRule(
   }
 
   if (field === "image" || field === "avatar") {
+    if (typeof value !== "object" || Array.isArray(value)) {
+      return createError(field, "INVALID_IMAGE", rule);
+    }
     const img = value as Record<string, unknown>;
-
-    return typeof img !== "object"
-      ? createError(field, "INVALID_IMAGE", rule)
-      : typeof img.url !== "string"
-      ? createError(field, "INVALID_IMAGE", rule)
-      : img.mimeType &&
-        !ALLOWED_IMAGE_MIME_TYPES.has(img.mimeType as string)
-      ? createError(field, "UNSUPPORTED_IMAGE_TYPE", rule)
-      : img.sizeKB && (img.sizeKB as number) > 5120
-      ? createError(field, "IMAGE_TOO_LARGE", rule)
-      : null;
+    if (typeof img.url !== "string") return createError(field, "INVALID_IMAGE", rule);
+    if (img.mimeType && !ALLOWED_IMAGE_MIME_TYPES.has(img.mimeType as string)) {
+      return createError(field, "UNSUPPORTED_IMAGE_TYPE", rule);
+    }
+    if (img.sizeKB && (img.sizeKB as number) > 5120) {
+      return createError(field, "IMAGE_TOO_LARGE", rule);
+    }
+    return null;
   }
 
-  return typeof value !== "string"
-    ? createError(field, "INVALID_TYPE", rule)
-    : rule.min !== undefined && value.length < rule.min
-    ? createError(field, "MIN_LENGTH", rule)
-    : rule.max !== undefined && value.length > rule.max
-    ? createError(field, "MAX_LENGTH", rule)
-    : rule.regex && !rule.regex.test(value)
-    ? createError(field, "PATTERN", rule)
-    : null;
+  if (typeof value === "boolean") {
+    return null;
+  }
+
+  if (typeof value !== "string") {
+    return createError(field, "INVALID_TYPE", rule);
+  }
+
+  if (rule.min !== undefined && value.length < rule.min) {
+    return createError(field, "MIN_LENGTH", rule);
+  }
+  if (rule.max !== undefined && value.length > rule.max) {
+    return createError(field, "MAX_LENGTH", rule);
+  }
+  if (rule.regex && !rule.regex.test(value)) {
+    if (field === "password") {
+      return createError(field, "PATTERN", rule);
+    }
+    return createError(field, "PATTERN", rule);
+  }
+
+  return null;
 }

@@ -14,6 +14,7 @@ import { streetRule } from "./streetRule";
 import { usernameRule } from "./usernameRule";
 import { timeRule } from "./timeRule";
 import { booleanRule } from "./booleanRule";
+import { imageRule } from "./imageRule";
 
 export const RULES: Record<string, FieldRule> = {
   name: nameRule,
@@ -30,5 +31,6 @@ export const RULES: Record<string, FieldRule> = {
   street: streetRule,
   username: usernameRule,
   time: timeRule,
-  active: booleanRule
+  active: booleanRule,
+  avatar: imageRule 
 };
