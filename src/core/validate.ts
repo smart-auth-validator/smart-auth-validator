@@ -1,13 +1,27 @@
 import { RULES } from "../rules";
 import { applyRule } from "./rule-engine";
 import { createError } from "../core/error";
-import type { FieldRule, ValidationError, ValidationResult, ValidationSchema } from "../types/schema";
-export function validate<T extends Record<string, unknown>>(schema: ValidationSchema, data: T): ValidationResult<Partial<T>> {
+import type {
+  FieldRule,
+  ValidationError,
+  ValidationResult,
+  ValidationSchema
+} from "../types/schema";
+
+export function validate<T extends Record<string, unknown>>(
+  schema: ValidationSchema,
+  data: T
+): ValidationResult<Partial<T>> {
   const errors: ValidationError[] = [];
   const validData: Partial<T> = {};
 
   for (const field of Object.keys(schema)) {
-    const rule = RULES[field] || (schema[field] as FieldRule);
+    const schemaRule = schema[field];
+
+    const rule: FieldRule | undefined =
+      typeof schemaRule === "boolean"
+        ? RULES[field]
+        : RULES[field] ?? schemaRule;
 
     if (!rule) {
       errors.push(createError(field, "INVALID_TYPE"));
@@ -23,5 +37,7 @@ export function validate<T extends Record<string, unknown>>(schema: ValidationSc
     }
   }
 
-  return errors.length > 0 ? { success: false, errors } : { success: true, data: validData };
+  return errors.length > 0
+    ? { success: false, errors }
+    : { success: true, data: validData };
 }

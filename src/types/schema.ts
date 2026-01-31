@@ -6,10 +6,10 @@ export type RuleMessage = {
 };
 
 export type FieldRule = {
-  min?: number;             // Minimum length for string
-  max?: number;             // Maximum length for string
-  regex?: RegExp;           // Regex pattern to validate
-  messages?: Partial<Record<ValidationErrorCode, string>>; // Custom error messages
+  min?: number;
+  max?: number;
+  regex?: RegExp;
+  messages?: Partial<Record<ValidationErrorCode, string>>; 
 };
 
 export type Schema =
@@ -24,23 +24,33 @@ export interface ValidationSchema {
 }
 
 export type ValidationErrorCode =
-  | "REQUIRED"       // Field is missing
-  | "INVALID_TYPE"   // Field type is incorrect
-  | "MIN_LENGTH"     // Field length < min
-  | "MAX_LENGTH"     // Field length > max
-  | "PATTERN"        // Field does not match regex
-  | "WEAK_PASSWORD"  // Password does not meet strength requirements
-  | "INVALID_PHONE"  // Phone number is invalid
-  | "INVALID_URL";   // URL is invalid
+  | "REQUIRED"
+  | "INVALID_TYPE"
+  | "MIN_LENGTH"
+  | "MAX_LENGTH"
+  | "PATTERN"
+  | "WEAK_PASSWORD"
+  | "INVALID_PHONE"
+  | "INVALID_URL"
+  | "INVALID_IMAGE"
+  | "IMAGE_TOO_LARGE"
+  | "UNSUPPORTED_IMAGE_TYPE";
+
 
 export interface ValidationError {
-  field: string;              // Field name
-  code: ValidationErrorCode;  // Error type
-  message: string;            // Human-readable message
+  field: string;
+  code: ValidationErrorCode;  
+  message: string;            
 }
 
 export interface ValidationResult<T> {
-  success: boolean;           // True if no errors
-  data?: T;                   // Validated data (only present if success)
-  errors?: ValidationError[]; // Array of errors (only present if !success)
+  success: boolean;           
+  data?: T; 
+  errors?: ValidationError[];
+}
+
+export interface ImagePayload {
+  url: string;
+  mimeType?: string;
+  sizeKB?: number;
 }

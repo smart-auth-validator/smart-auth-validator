@@ -12,13 +12,12 @@ Smart, type-safe, zero-regex validation middleware for Node.js backends. Support
 
 ## Features
 
-- ✅ Type-safe validation with **TypeScript**  
-- ✅ Supports **Fastify** and **Express** out of the box  
-- ✅ Standard rules for common fields: `email`, `password`, `name`, `phone`, etc.  
-- ✅ O(1) **rule lookup** for maximum performance  
-- ✅ Returns structured **errors** for each field  
-- ✅ Minimal and lightweight  
-- ✅ Easy to extend with custom rules
+- Type-safe validation with **TypeScript**  
+- Supports **Fastify** and **Express** out of the box  
+- Standard rules for common fields: `email`, `password`, `name`, `phone`, etc.  
+- Returns structured **errors** for each field  
+- Minimal and lightweight  
+- Easy to extend with custom rules
 
 ---
 
