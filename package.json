@@ -1,6 +1,6 @@
 {
   "name": "smart-auth-validator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Zero-regex, type-safe authentication and form validation for Fastify and Express",
   "author": "Muhammad Burhan Chughtai",
   "license": "MIT",
@@ -19,12 +19,12 @@
     "dist"
   ],
   "sideEffects": false,
- "scripts": {
-  "test": "vitest run",
-  "lint": "eslint src --max-warnings=0",
-  "build": "tsup",
-  "prepublishOnly": "npm run lint && npm run test && npm run build"
-},
+  "scripts": {
+    "test": "vitest run",
+    "lint": "eslint src --max-warnings=0",
+    "build": "tsup",
+    "prepublishOnly": "npm run lint && npm run test && npm run build"
+  },
   "peerDependencies": {
     "express": "^4.22.1",
     "fastify": "^4 || ^5"
