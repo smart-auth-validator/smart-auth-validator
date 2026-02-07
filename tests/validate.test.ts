@@ -91,23 +91,19 @@ it("should correctly handle partial valid input for password", () => {
 
   const result = validate(schema, input);
   
-  // FIX: This must be FALSE because 'name', 'phone', etc., are missing from input
   expect(result.success).toBe(false); 
   
   if (!result.errors) throw new Error("Errors should be defined");
 
-  // Check that email is valid (no error for email)
   const emailError = result.errors.find((err) => err.field === "email");
   expect(emailError).toBeUndefined();
 
-  // Check that password failed because it's too short
   const passwordError = result.errors.find((err) => err.field === "password");
   expect(passwordError).toBeDefined();
   expect(passwordError?.code).toBe("MIN_LENGTH");
 
-  // Second check: Password is long enough but missing special characters
   const weakPasswordInput = {
-    ...input, // keep email
+    ...input,
     password: "abcdefgh",
   };
   const weakResult = validate(schema, weakPasswordInput);

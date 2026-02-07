@@ -17,23 +17,28 @@ export function validate<T extends Record<string, unknown>>(
 
   for (const field of Object.keys(schema)) {
     const schemaRule = schema[field];
+    const rule: FieldRule | undefined =
+      typeof schemaRule === "boolean"
+        ? RULES[field]
+        : (RULES[field] ?? (schemaRule as FieldRule));
 
-  const rule: FieldRule | undefined =
-  typeof schemaRule === "boolean"
-    ? RULES[field]
-    : RULES[field] ?? schemaRule;
+    if (!rule) {
+      errors.push(createError(field, "INVALID_TYPE"));
+      continue;
+    }
 
-if (!rule) {
-  errors.push(createError(field, "INVALID_TYPE"));
-  continue;
-}
+    let currentValue = data[field as keyof T];
 
-const error = applyRule(field, data[field as keyof T], rule);
+    if (rule.transform && currentValue !== undefined) {
+      currentValue = rule.transform(currentValue) as T[keyof T];
+    }
+
+    const error = applyRule(field, currentValue, rule);
 
     if (error) {
       errors.push(error);
     } else {
-      validData[field as keyof T] = data[field as keyof T];
+      validData[field as keyof T] = currentValue;
     }
   }
 

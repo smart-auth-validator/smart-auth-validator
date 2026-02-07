@@ -10,6 +10,7 @@ export type FieldRule = {
   max?: number;
   regex?: RegExp;
   messages?: Partial<Record<ValidationErrorCode, string>>; 
+  transform?: (value: unknown) => unknown;
 };
 
 export type Schema =
