@@ -57,3 +57,7 @@ PATTERN: Invalid format (e.g., bad email).
 MIN_LENGTH: Input is too short.
 
 WEAK_PASSWORD: Password doesn't meet security standards.
+
+
+[![Open Collective](https://opencollective.com/smart-auth-validator/backers/badge.svg)](#link)
+[![Open Collective](https://opencollective.com/smart-auth-validator/sponsors/badge.svg)](#link)
