@@ -23,7 +23,7 @@ Smart, type-safe, zero-regex validation middleware for Node.js backends. Support
 
 ## Installation
 
-```bash
+bash
 npm install smart-auth-validator
 
 
@@ -42,8 +42,7 @@ To use Smart Auth Validator, simply define a schema with the fields you want to 
 
 Basic 3-Field Example
 Even though the library supports 10+ fields, you can choose only the ones you need:
-![Alt Text](carbon.png)
-
+![Alt Text](assets/carbon.png)
 Error Response Format
 If validation fails, you get a clean array explaining exactly what went wrong:
 
