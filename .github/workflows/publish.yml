@@ -9,9 +9,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write # Required for Trusted Publishing
+      id-token: write # Mandatory for Trusted Publishing
       contents: read
-
+    
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -20,10 +20,9 @@ jobs:
           registry-url: https://registry.npmjs.org
       
       - run: npm ci
+      - run: npm run build # Generates the /dist folder
       
-      # You MUST run your build step so the /dist folder is generated 
-      # before publishing, otherwise your package will be empty.
-      - run: npm run build
-      
-      # Added --provenance to clear Socket supply chain alerts
+      # Added --provenance to link your package to this GitHub run
       - run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # Use if NOT using Trusted Publisher
