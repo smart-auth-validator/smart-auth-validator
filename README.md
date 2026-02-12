@@ -23,7 +23,7 @@ Smart, type-safe, zero-regex validation middleware for Node.js backends. Support
 
 ## Installation
 
-```bash
+bash
 npm install smart-auth-validator
 
 
@@ -42,11 +42,7 @@ To use Smart Auth Validator, simply define a schema with the fields you want to 
 
 Basic 3-Field Example
 Even though the library supports 10+ fields, you can choose only the ones you need:
-
-import { validate } from "smart-auth-validator";
-const result = validate({ name: true, email: true, password: true }, req.body);
-
-
+![Alt Text](assets/carbon.png)
 Error Response Format
 If validation fails, you get a clean array explaining exactly what went wrong:
 
@@ -57,3 +53,7 @@ PATTERN: Invalid format (e.g., bad email).
 MIN_LENGTH: Input is too short.
 
 WEAK_PASSWORD: Password doesn't meet security standards.
+
+
+[![Open Collective](https://opencollective.com/smart-auth-validator/backers/badge.svg)](#link)
+[![Open Collective](https://opencollective.com/smart-auth-validator/sponsors/badge.svg)](#link)
