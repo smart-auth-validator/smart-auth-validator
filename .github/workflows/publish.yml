@@ -9,7 +9,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write # Mandatory for Trusted Publishing
+      id-token: write 
       contents: read
     
     steps:
@@ -24,5 +24,4 @@ jobs:
       
       # Added --provenance to link your package to this GitHub run
       - run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # Use if NOT using Trusted Publisher
+      
