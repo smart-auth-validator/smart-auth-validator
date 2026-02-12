@@ -9,7 +9,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write 
+      id-token: write
       contents: read
     
     steps:
@@ -20,10 +20,8 @@ jobs:
           registry-url: https://registry.npmjs.org
       
       - run: npm ci
-      - run: npm run build # Generates the /dist folder
+      - run: npm run build
       
-      # Added --provenance to link your package to this GitHub run
       - run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-      
