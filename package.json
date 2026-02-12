@@ -1,6 +1,6 @@
 {
   "name": "smart-auth-validator",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Zero-regex, type-safe authentication and form validation for Fastify and Express",
   "author": "Muhammad Burhan Chughtai",
   "license": "MIT",
