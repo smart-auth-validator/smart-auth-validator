@@ -24,4 +24,6 @@ jobs:
       
       # Added --provenance to link your package to this GitHub run
       - run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
       
