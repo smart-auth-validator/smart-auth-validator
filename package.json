@@ -45,7 +45,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/chughtaiburhan/smart-auth-validator.git"
+    "url": "git+https://github.com/chughtaiburhan/smart-auth-validator.git"
   },
   "bugs": {
     "url": "https://github.com/chughtaiburhan/smart-auth-validator/issues"
