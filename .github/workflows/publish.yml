@@ -3,13 +3,14 @@ name: Publish to npm
 on:
   push:
     tags:
-      - "v*"  # trigger on any version tag
+      - "v*"
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write # --provenance ke liye ye lazmi hai
 
     steps:
       - uses: actions/checkout@v4
@@ -19,9 +20,18 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org
 
-      - run: npm ci
+      # 1. Install dependencies (npm install better handle karta hai overrides ko)
+      - run: npm install 
+
+      # 2. Snyk Security Check (Taake dashboard automatically update ho jaye)
+      - name: Run Snyk Test
+        run: npx snyk test --dev
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
       - run: npm run build
 
+      # 3. Publish with correct permissions
       - name: Publish to NPM
         run: npm publish --access public --provenance
         env:
