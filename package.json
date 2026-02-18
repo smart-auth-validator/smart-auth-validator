@@ -30,27 +30,30 @@
     "fastify": "^5.7.3"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
+    "@types/express": "^5.0.6",
     "@types/node": "^25.1.0",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.54.0",
     "vitest": "^4.0.18"
+  },
+  "overrides": {
+    "ajv": "^8.18.0"
   },
   "engines": {
     "node": ">=18"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BurhanChughtai20/smart-auth-validator.git"
+    "url": "git+https://github.com/smart-auth-validator/smart-auth-validator"
   },
   "bugs": {
-    "url": "https://github.com/BurhanChughtai20/smart-auth-validator/issues"
+    "url": "https://github.com/smart-auth-validator/smart-auth-validator/issues"
   },
-  "homepage": "https://github.com/BurhanChughtai20/smart-auth-validator#readme",
+  "homepage": "https://github.com/smart-auth-validator/smart-auth-validator",
   "keywords": [
     "auth",
     "validation",
