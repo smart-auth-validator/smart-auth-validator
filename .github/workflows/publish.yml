@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # --provenance ke liye ye lazmi hai
+      id-token: write # For authentication
 
     steps:
       - uses: actions/checkout@v4
@@ -20,10 +20,10 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org
 
-      # 1. Install dependencies (npm install better handle karta hai overrides ko)
+      # 1. Install dependencies
       - run: npm install 
 
-      # 2. Snyk Security Check (Taake dashboard automatically update ho jaye)
+      # 2. Run Snyk
       - name: Run Snyk Test
         run: npx snyk test --dev
         env:
@@ -31,7 +31,7 @@ jobs:
 
       - run: npm run build
 
-      # 3. Publish with correct permissions
+      # 3. Publish  
       - name: Publish to NPM
         run: npm publish --access public --provenance
         env:
