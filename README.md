@@ -14,7 +14,7 @@ Smart Auth Validator
 
 - Type-safe validation with **TypeScript**  
 - Supports **Fastify** and **Express** out of the box  
-- Standard rules for common fields: `email`, `password`, `name`, `phone`, etc.  
+- Standard rules for common fields: `image`, `email`, `password`, `name`, `phone`, etc.  
 - Returns structured **errors** for each field  
 - Minimal and lightweight  
 - Easy to extend with custom rules
