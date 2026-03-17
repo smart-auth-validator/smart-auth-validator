@@ -1,4 +1,5 @@
 name: CI - Test on Renovate Merge
+
 on:
   push:
     branches: [main]
@@ -9,19 +10,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write        # ← Changed from read to write
+      pull-requests: write   # ← Added for automerge
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4      
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 
+        uses: actions/setup-node@v4
         with:
-          node-version: 22      
+          node-version: 22
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci            # ← Use ci instead of install (faster + lockfile strict)
 
       - name: Run build
         run: npm run build
