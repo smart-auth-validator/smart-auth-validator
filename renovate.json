@@ -1,0 +1,62 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "dependencyDashboard": true,
+  "dependencyDashboardAutoclose": true,
+  "packageRules": [
+    {
+      "description": "Auto-merge GitHub Actions patch and minor updates",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+    {
+      "description": "Auto-merge npm patch updates",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+    {
+      "description": "Auto-merge npm minor updates for non-breaking packages",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor"],
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Group all GitHub Actions updates together",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "groupSlug": "github-actions"
+    },
+    {
+      "description": "Group all npm dev dependency updates",
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "Dev Dependencies",
+      "groupSlug": "dev-deps"
+    }
+  ],
+  "github-actions": {
+    "enabled": true,
+    "fileMatch": ["^\\.github/workflows/[^/]+\\.ya?ml$"]
+  },
+  "npm": {
+    "enabled": true
+  },
+  "schedule": ["before 6am on Monday"],
+  "timezone": "Asia/Karachi",
+  "labels": ["renovate", "dependencies"],
+  "assignees": [],
+  "prCreation": "immediate",
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 10,
+  "rebaseWhen": "conflicted",
+  "commitMessagePrefix": "chore(deps):"
+}
