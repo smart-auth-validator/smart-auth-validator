@@ -1,62 +1,75 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
+  "extends": ["config:recommended"],
   "dependencyDashboard": true,
   "dependencyDashboardAutoclose": true,
+
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security", "renovate"],
+    "automerge": true,
+    "automergeType": "pr",
+    "automergeStrategy": "squash",
+    "prPriority": 10
+  },
+
+  "osvVulnerabilityAlerts": true,
+
   "packageRules": [
     {
-      "description": "Auto-merge GitHub Actions patch and minor updates",
+      "description": "Auto-merge all security vulnerability fixes immediately",
+      "matchCategories": ["security"],
+      "automerge": true,
+      "automergeType": "pr",
+      "schedule": ["at any time"],
+      "prPriority": 10
+    },
+    {
+      "description": "Fix minimatch vulnerabilities (ReDoS + Complexity)",
+      "matchPackageNames": ["minimatch"],
+      "allowedVersions": ">=3.1.2",
+      "automerge": true
+    },
+    {
+      "description": "Fix rollup Directory Traversal",
+      "matchPackageNames": ["rollup"],
+      "allowedVersions": ">=3.29.5",
+      "automerge": true
+    },
+    {
+      "description": "Fix flatted Uncontrolled Recursion",
+      "matchPackageNames": ["flatted"],
+      "allowedVersions": ">=3.3.2",
+      "automerge": true
+    },
+    {
+      "description": "Fix fastify Regex Vulnerability",
+      "matchPackageNames": ["fastify"],
+      "allowedVersions": ">=4.26.2",
+      "automerge": true
+    },
+    {
+      "description": "Auto-merge GitHub Actions updates",
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
-      "automergeType": "pr",
-      "automergeStrategy": "squash"
+      "groupName": "GitHub Actions"
     },
     {
-      "description": "Auto-merge npm patch updates",
-      "matchManagers": ["npm"],
-      "matchUpdateTypes": ["patch"],
-      "automerge": true,
-      "automergeType": "pr",
-      "automergeStrategy": "squash"
-    },
-    {
-      "description": "Auto-merge npm minor updates for non-breaking packages",
-      "matchManagers": ["npm"],
-      "matchUpdateTypes": ["minor"],
+      "description": "Auto-merge npm devDep minor/patch",
       "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
-      "automergeType": "pr"
-    },
-    {
-      "description": "Group all GitHub Actions updates together",
-      "matchManagers": ["github-actions"],
-      "groupName": "GitHub Actions",
-      "groupSlug": "github-actions"
-    },
-    {
-      "description": "Group all npm dev dependency updates",
-      "matchDepTypes": ["devDependencies"],
-      "groupName": "Dev Dependencies",
-      "groupSlug": "dev-deps"
+      "groupName": "Dev Dependencies"
     }
   ],
-  "github-actions": {
-    "enabled": true,
-    "fileMatch": ["^\\.github/workflows/[^/]+\\.ya?ml$"]
-  },
-  "npm": {
-    "enabled": true
-  },
-  "schedule": ["before 6am on Monday"],
+
+  "github-actions": { "enabled": true },
+  "npm": { "enabled": true },
+  "schedule": ["at any time"],
   "timezone": "Asia/Karachi",
   "labels": ["renovate", "dependencies"],
-  "assignees": [],
-  "prCreation": "immediate",
   "prHourlyLimit": 0,
-  "prConcurrentLimit": 10,
-  "rebaseWhen": "conflicted",
-  "commitMessagePrefix": "chore(deps):"
+  "prConcurrentLimit": 0,
+  "rebaseWhen": "conflicted"
 }
