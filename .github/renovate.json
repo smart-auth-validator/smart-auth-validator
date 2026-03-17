@@ -1,0 +1,12 @@
+{
+  "extends": ["config:base"],
+  "automerge": false,
+  "major": {
+    "enabled": true
+  },
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "assignees": ["@me"]
+  },
+  "schedule": ["before 3am on Monday"]
+}
