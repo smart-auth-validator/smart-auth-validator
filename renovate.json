@@ -1,75 +1,90 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
+
   "dependencyDashboard": true,
   "dependencyDashboardAutoclose": true,
 
+  "osvVulnerabilityAlerts": true,
+
   "vulnerabilityAlerts": {
     "enabled": true,
-    "labels": ["security", "renovate"],
     "automerge": true,
     "automergeType": "pr",
     "automergeStrategy": "squash",
-    "prPriority": 10
+    "labels": ["security", "renovate"],
+    "prPriority": 10,
+    "schedule": ["at any time"]
   },
-
-  "osvVulnerabilityAlerts": true,
 
   "packageRules": [
     {
-      "description": "Auto-merge all security vulnerability fixes immediately",
-      "matchCategories": ["security"],
+      "description": "SECURITY: Fix minimatch ReDoS - issues #15 #16 #18",
+      "matchPackageNames": ["minimatch"],
+      "allowedVersions": ">=9.0.6",
       "automerge": true,
       "automergeType": "pr",
+      "automergeStrategy": "squash",
       "schedule": ["at any time"],
-      "prPriority": 10
+      "labels": ["security", "renovate"]
     },
     {
-      "description": "Fix minimatch vulnerabilities (ReDoS + Complexity)",
-      "matchPackageNames": ["minimatch"],
-      "allowedVersions": ">=3.1.2",
-      "automerge": true
-    },
-    {
-      "description": "Fix rollup Directory Traversal",
+      "description": "SECURITY: Fix rollup Directory Traversal - issue #17",
       "matchPackageNames": ["rollup"],
       "allowedVersions": ">=3.29.5",
-      "automerge": true
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "schedule": ["at any time"],
+      "labels": ["security", "renovate"]
     },
     {
-      "description": "Fix flatted Uncontrolled Recursion",
+      "description": "SECURITY: Fix flatted Recursion - issue #14",
       "matchPackageNames": ["flatted"],
       "allowedVersions": ">=3.3.2",
-      "automerge": true
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "schedule": ["at any time"],
+      "labels": ["security", "renovate"]
     },
     {
-      "description": "Fix fastify Regex Vulnerability",
+      "description": "SECURITY: Fix fastify ReDoS - issue #13",
       "matchPackageNames": ["fastify"],
       "allowedVersions": ">=4.26.2",
-      "automerge": true
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "schedule": ["at any time"],
+      "labels": ["security", "renovate"]
     },
     {
       "description": "Auto-merge GitHub Actions updates",
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "GitHub Actions",
       "automerge": true,
-      "groupName": "GitHub Actions"
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
     },
     {
-      "description": "Auto-merge npm devDep minor/patch",
+      "description": "Auto-merge devDependencies minor/patch",
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Dev Dependencies",
       "automerge": true,
-      "groupName": "Dev Dependencies"
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
     }
   ],
 
-  "github-actions": { "enabled": true },
   "npm": { "enabled": true },
+  "github-actions": { "enabled": true },
   "schedule": ["at any time"],
   "timezone": "Asia/Karachi",
-  "labels": ["renovate", "dependencies"],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
-  "rebaseWhen": "conflicted"
+  "rebaseWhen": "conflicted",
+  "labels": ["renovate", "dependencies"],
+  "platformAutomerge": true
 }
