@@ -1,12 +1,1 @@
-{
-  "extends": ["config:base"],
-  "automerge": false,
-  "major": {
-    "enabled": true
-  },
-  "vulnerabilityAlerts": {
-    "labels": ["security"],
-    "assignees": ["@me"]
-  },
-  "schedule": ["before 3am on Monday"]
-}
+{"extends":["config:base"],"automerge":true,"major":{"enabled":true},"vulnerabilityAlerts":{"automerge":true,"automergeType":"pr","automergeStrategy":"squash","labels":["security"],"assignees":["BurhanChughtai20"]},"schedule":["at any time"],"prConcurrentLimit":5,"semanticCommits":"enabled"}
