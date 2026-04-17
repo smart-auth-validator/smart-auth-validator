@@ -1,4 +1,4 @@
-import { FieldRule } from "../types/schema";
+import { FieldRule } from "../shared";
 
 export const timeRule: FieldRule = {
   regex: /^([01]\d|2[0-3]):([0-5]\d)$/,

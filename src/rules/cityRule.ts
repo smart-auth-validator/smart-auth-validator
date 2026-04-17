@@ -1,4 +1,4 @@
-import { FieldRule } from "../types/schema";
+import { FieldRule } from "../shared";
 
 export const cityRule: FieldRule = {
   max: 50,

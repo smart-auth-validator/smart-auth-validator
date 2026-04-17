@@ -1,4 +1,4 @@
-import { FieldRule } from "../types/schema";
+import { FieldRule } from "../shared";
 
 export const urlRule: FieldRule = {
   max: 2083, // typical max URL length

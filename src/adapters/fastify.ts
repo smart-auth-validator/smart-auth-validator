@@ -1,11 +1,5 @@
-import type {
-  FastifyRequest,
-  FastifyReply,
-  preHandlerHookHandler
-} from "fastify";
+import { FastifyReply, FastifyRequest, preHandlerHookHandler, validate, ValidationSchema } from "../shared";
 
-import { validate } from "../core/validate";
-import type { ValidationSchema } from "../types/schema";
 
 export function fastifyAuthValidator(
   schema: ValidationSchema

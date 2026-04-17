@@ -1,6 +1,4 @@
-import type { FieldRule, ValidationError } from "../types/schema";
-import { createError } from "../core/error";
-import { ALLOWED_IMAGE_MIME_TYPES } from "../constants/image";
+import { ALLOWED_IMAGE_MIME_TYPES, createError, FieldRule, ValidationError } from "../shared";
 
 export function applyRule(
   field: string,

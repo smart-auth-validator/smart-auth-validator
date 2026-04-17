@@ -1,39 +1,44 @@
-import type { FieldRule, ValidationError, ValidationErrorCode } from "../types/schema";
+import { FieldRule, ValidationError, ValidationErrorCode } from "../shared";
 
-export const ERROR_MESSAGES: Record<
-  ValidationErrorCode,
-  (field: string, rule?: FieldRule) => string
-> = {
-  REQUIRED: (field) => `${field} is required`,
+type ErrorMessageBuilder = (field: string, rule?: FieldRule) => string;
 
-  INVALID_TYPE: (field) => `${field} must be a valid ${field}`,
+export const ERROR_MESSAGES: Record<ValidationErrorCode, ErrorMessageBuilder> =
+  {
+    REQUIRED: (field) =>
+      `${field} is required`,
 
-  MIN_LENGTH: (field, rule) =>
-    `${field} must be at least ${rule?.min} characters`,
+    INVALID_TYPE: (field) =>
+      `${field} must be a valid ${field}`,
 
-  MAX_LENGTH: (field, rule) =>
-    `${field} must be maximum ${rule?.max} characters`,
+    MIN_LENGTH: (field, rule) =>
+      `${field} must be at least ${rule?.min ?? "?"} characters`,
 
-  PATTERN: (field) => `${field} format is invalid`,
+    MAX_LENGTH: (field, rule) =>
+      `${field} must be no more than ${rule?.max ?? "?"} characters`,
 
-  WEAK_PASSWORD: () =>
-    "Password too weak (8+ chars, 1 upper, 1 lower, 1 number, 1 special char)",
+    PATTERN: (field) =>
+      `${field} format is invalid`,
 
-  INVALID_PHONE: () =>
-    "Phone must be a valid international/local number (+923001234567)",
+    WEAK_PASSWORD: () =>
+      "Password too weak — needs 8+ chars, 1 uppercase, 1 lowercase, 1 number, 1 special character",
 
-  INVALID_URL: () =>
-    "URL must be valid (https://example.com)",
+    // Phone number failed international/local format check
+    INVALID_PHONE: () =>
+      "Phone must be a valid international or local number (e.g. +923001234567)",
 
-  INVALID_IMAGE: (field) =>
-    `${field} must be a valid image object`,
+    // URL didn't pass format validation
+    INVALID_URL: () =>
+      "URL must be valid (e.g. https://example.com)",
 
-  IMAGE_TOO_LARGE: () =>
-    "Image size exceeds allowed limit",
+    INVALID_IMAGE: (field) =>
+      `${field} must be a valid image object`,
 
-  UNSUPPORTED_IMAGE_TYPE: () =>
-    "Unsupported image format (jpeg, png, webp, avif only)"
-};
+    IMAGE_TOO_LARGE: () =>
+      "Image size exceeds the allowed limit",
+
+    UNSUPPORTED_IMAGE_TYPE: () =>
+      "Unsupported image format — accepted: jpeg, png, webp, avif",
+  };
 
 export function createError(
   field: string,
@@ -41,8 +46,8 @@ export function createError(
   rule?: FieldRule
 ): ValidationError {
   const message =
-    rule?.messages?.[code] ||
-    ERROR_MESSAGES[code]?.(field, rule) ||
+    rule?.messages?.[code] ??
+    ERROR_MESSAGES[code]?.(field, rule) ??
     "Validation error";
 
   return { field, code, message };

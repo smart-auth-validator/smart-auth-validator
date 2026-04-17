@@ -1,12 +1,5 @@
-import { RULES } from "../rules";
-import { applyRule } from "./rule-engine";
-import { createError } from "../core/error";
-import type {
-  FieldRule,
-  ValidationError,
-  ValidationResult,
-  ValidationSchema
-} from "../types/schema";
+import { applyRule, createError, FieldRule, RULES, ValidationError, ValidationResult, ValidationSchema } from "../shared";
+
 
 export function validate<T extends Record<string, unknown>>(
   schema: ValidationSchema,

@@ -1,4 +1,4 @@
-import { FieldRule } from "../types/schema";
+import { FieldRule } from "../shared";
 
 export const phoneRule: FieldRule = {
   regex: /^\+?[1-9]\d{10,14}$/,

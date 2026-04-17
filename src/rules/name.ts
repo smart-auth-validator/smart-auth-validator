@@ -1,6 +1,6 @@
-import { FieldRule } from "../types/schema";
+import { FieldRule } from "../shared";
 
-export const nameRule: FieldRule = {
+export const nameRule: FieldRule= {
   min: 2,
   max: 50,
   regex: /^[a-zA-Z\s'-]+$/,

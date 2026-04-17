@@ -1,4 +1,4 @@
-import { FieldRule } from "../types/schema";
+import { FieldRule } from "../shared";
 
 export const emailRule: FieldRule = {
   max: 50,

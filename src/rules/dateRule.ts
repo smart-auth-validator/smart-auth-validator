@@ -1,4 +1,4 @@
-import { FieldRule } from "../types/schema";
+import { FieldRule } from "../shared";
 
 export const dateRule: FieldRule = {
   regex: /^\d{4}-\d{2}-\d{2}$/,

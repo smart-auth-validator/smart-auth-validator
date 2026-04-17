@@ -1,4 +1,4 @@
-import { FieldRule } from "../types/schema";
+import { FieldRule } from "../shared";
 
 export const cvvRule: FieldRule = {
   regex: /^\d{3,4}$/,

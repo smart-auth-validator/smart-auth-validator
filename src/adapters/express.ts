@@ -1,6 +1,4 @@
-import type { Request, Response, NextFunction } from "express";
-import { validate } from "../core/validate";
-import type { ValidationSchema } from "../types/schema";
+import { NextFunction, Request, Response, validate, ValidationSchema } from "../shared";
 
 export function expressAuthValidator(schema: ValidationSchema) {
   return (req: Request, res: Response, next: NextFunction) => {
