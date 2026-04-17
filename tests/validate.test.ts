@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { validate } from "../src/index";
-import { RULES } from "../src/rules";
+import { RULES } from '../src/rules/index';
+import { validate } from "../src/shared";
 
 // Generate test passwords algorithmically to avoid hardcoded password warnings
 const generateValidPassword = () => {
