@@ -10,8 +10,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     permissions:
-      contents: write        # ← Changed from read to write
-      pull-requests: write   # ← Added for automerge
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,12 +23,18 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: npm ci            # ← Use ci instead of install (faster + lockfile strict)
+        run: npm ci
+
+      - name: Run Snyk Security Check
+        run: npx snyk test --dev
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm run test
 
       - name: Run build
         run: npm run build
-
-      - name: Run Snyk Security Check
-        run: npx snyk test --dev || true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
