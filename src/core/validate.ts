@@ -1,5 +1,12 @@
-import { applyRule, createError, FieldRule, RULES, ValidationError, ValidationResult, ValidationSchema } from "../shared";
-
+import {
+  applyRule,
+  createError,
+  FieldRule,
+  RULES,
+  ValidationError,
+  ValidationResult,
+  ValidationSchema,
+} from "../shared";
 
 export function validate<T extends Record<string, unknown>>(
   schema: ValidationSchema,
@@ -8,34 +15,56 @@ export function validate<T extends Record<string, unknown>>(
   const errors: ValidationError[] = [];
   const validData: Partial<T> = {};
 
-  for (const field of Object.keys(schema)) {
-    const schemaRule = schema[field];
-    const rule: FieldRule | undefined =
-      typeof schemaRule === "boolean"
-        ? RULES[field]
-        : (RULES[field] ?? (schemaRule as FieldRule));
+  for (const field of Object.keys(schema) as Array<keyof T>) {
+    const rule = resolveRule(field as string, schema[field as string]);
 
     if (!rule) {
-      errors.push(createError(field, "INVALID_TYPE"));
+      errors.push(createError(field as string, "INVALID_TYPE"));
       continue;
     }
 
-    let currentValue = data[field as keyof T];
+    const rawValue = data[field];
+    const transformedValue = transformValue(rawValue, rule);
 
-    if (rule.transform && currentValue !== undefined) {
-      currentValue = rule.transform(currentValue) as T[keyof T];
-    }
-
-    const error = applyRule(field, currentValue, rule);
+    const error = applyRule(field as string, transformedValue, rule);
 
     if (error) {
       errors.push(error);
-    } else {
-      validData[field as keyof T] = currentValue;
+      continue;
     }
+
+    validData[field] = transformedValue;
   }
 
+  return buildResult(errors, validData);
+}
+
+function resolveRule(
+  field: string,
+  schemaRule: ValidationSchema[string]
+): FieldRule | undefined {
+  if (typeof schemaRule === "boolean") {
+    return RULES[field];
+  }
+
+  return RULES[field] ?? (schemaRule as FieldRule);
+}
+
+function transformValue<T>(
+  value: T,
+  rule: FieldRule
+): T {
+  if (rule.transform && value !== undefined) {
+    return rule.transform(value) as T;
+  }
+  return value;
+}
+
+function buildResult<T>(
+  errors: ValidationError[],
+  data: Partial<T>
+): ValidationResult<Partial<T>> {
   return errors.length > 0
     ? { success: false, errors }
-    : { success: true, data: validData };
+    : { success: true, data };
 }

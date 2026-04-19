@@ -1,15 +1,28 @@
-import { NextFunction, Request, Response, validate, ValidationSchema } from "../shared";
+import {
+  NextFunction,
+  Request,
+  Response,
+  validate,
+  ValidationSchema,
+} from "../shared";
 
-export function expressAuthValidator(schema: ValidationSchema) {
+type Target = "body" | "query" | "params";
+
+export function expressAuthValidator(
+  schema: ValidationSchema,
+  target: Target = "body"
+) {
   return (req: Request, res: Response, next: NextFunction) => {
-    const result = validate(schema, req.body);
+    const result = validate(schema, req[target]);
 
     if (!result.success) {
       return res.status(400).json({
-        status: "error",
-        errors: result.errors
+        status: "fail",
+        errors: result.errors,
       });
     }
+
+    (req as any).validated = result.data;
 
     next();
   };

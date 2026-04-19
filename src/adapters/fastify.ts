@@ -1,21 +1,31 @@
-import { FastifyReply, FastifyRequest, preHandlerHookHandler, validate, ValidationSchema } from "../shared";
+import {
+  FastifyReply,
+  FastifyRequest,
+  preHandlerHookHandler,
+  validate,
+  ValidationSchema,
+} from "../shared";
 
+type Target = "body" | "query" | "params";
 
 export function fastifyAuthValidator(
-  schema: ValidationSchema
+  schema: ValidationSchema,
+  target: Target = "body"
 ): preHandlerHookHandler {
-
-  return async (
-    request: FastifyRequest,
-    reply: FastifyReply
-  ) => {
-    const result = validate(schema, request.body as Record<string, unknown>);
+  return async (request: FastifyRequest, reply: FastifyReply) => {
+    const result = validate(
+      schema,
+      request[target] as Record<string, unknown>
+    );
 
     if (!result.success) {
-      reply.status(400).send({
-        status: "error",
-        errors: result.errors
+      return reply.status(400).send({
+        status: "fail",
+        errors: result.errors,
       });
     }
+
+    // attach validated data (consistent with Express version)
+    (request as any).validated = result.data;
   };
 }
