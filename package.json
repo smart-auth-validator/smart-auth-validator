@@ -23,16 +23,17 @@
     "test": "vitest run",
     "snyk-test": "snyk test",
     "snyk-monitor": "snyk monitor",
-    "lint": "eslint src --max-warnings=0",
+    "lint": "eslint src scripts --max-warnings=0",
     "generate:readme": "tsx scripts/generate-readme.ts",
     "build": "tsup",
-    "prepublishOnly": "npm run test && npm run build"
+    "prepublishOnly": "npm run test && npm run generate:readme && npm run build"
   },
   "peerDependencies": {
     "express": "^4.21.0 || ^5.0.0",
     "fastify": "^5.8.4"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/express": "^5.0.6",
     "@types/node": "^25.1.0",
     "@typescript-eslint/eslint-plugin": "^8.56.1",
@@ -47,7 +48,7 @@
     "vitest": "^4.0.18"
   },
   "overrides": {
-    "ajv": "^8.18.0",
+    "ajv": "^6.12.6",
     "fastify": {
       "ajv": "^8.18.0"
     }

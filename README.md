@@ -1,59 +1,78 @@
 # smart-auth-validator
-Smart, type-safe, zero-regex validation middleware for Node.js backends. Supports Fastify and Express out-of-the-box. Provides standard rules for email, password, name, phone, and more. Built for backend developers to avoid repetitive validation logic.
-
-Smart Auth Validator
 
 [![npm version](https://img.shields.io/npm/v/smart-auth-validator.svg)](https://www.npmjs.com/package/smart-auth-validator)
-[![License](https://img.shields.io/npm/l/smart-auth-validator.svg)](https://opensource.org/licenses/ISC)
+[![license](https://img.shields.io/npm/l/smart-auth-validator.svg)](https://opensource.org/licenses/ISC)
+[![downloads](https://img.shields.io/npm/dm/smart-auth-validator.svg)](https://www.npmjs.com/package/smart-auth-validator)
 
-**Smart Auth Validator** is a **type-safe, zero-regex authentication and form validation library** for **Fastify** and **Express**. It provides a **standardized, reusable validation system** for backend forms like registration, login, and profile updates without writing repetitive regex or validation logic.
+> Smart, type-safe validation library for Node.js backends.  
+> Works with **Express** and **Fastify** out of the box.
 
----
+## Install
+bashnpm install smart-auth-validator
 
-## Features
+## Why This Exists
+Every backend project repeats the same logic — email checks, password rules, phone formats.
+This library removes that boilerplate and gives you one consistent validation system.
 
-- Type-safe validation with **TypeScript**  
-- Supports **Fastify** and **Express** out of the box  
-- Standard rules for common fields: `image`, `email`, `password`, `name`, `phone`, etc.  
-- Returns structured **errors** for each field  
-- Minimal and lightweight  
-- Easy to extend with custom rules
+## Usage
+#### validate() — Direct
+tsimport { validate } from "smart-auth-validator";
 
----
+const result = validate(
+  { email: true, password: true, name: true },
+  { email: "test@gmail.com", password: "12345678", name: "John" }
+);
 
-## Installation
+console.log(result);
 
-bash
-npm install smart-auth-validator
+## Express
+tsimport express from "express";
+import { expressAuthValidator } from "smart-auth-validator";
 
+const app = express();
+app.use(express.json());
 
-Supported Fields
-The library currently supports a wide array of built-in validation rules. You can validate these fields by simply passing their keys:
+app.post(
+  "/register",
+  expressAuthValidator({ email: true, password: true, name: true }),
+  (req, res) => {
+    res.json({ success: true, message: "User registered successfully" });
+  }
+);
 
-Category: Supported Fields
-Identity  "name, username, email, password"
-Contact   "phone, url"
-Address   "street, city, state, postalCode"
-Finance   "creditCard, cvv"
-General   "date, time, active (boolean)"
+app.listen(3000);
 
-Simple Usage
-To use Smart Auth Validator, simply define a schema with the fields you want to validate and pass your input data to the validate function.
+## Fastify
+tsimport Fastify from "fastify";
+import { fastifyAuthValidator } from "smart-auth-validator";
 
-Basic 3-Field Example
-Even though the library supports 10+ fields, you can choose only the ones you need:
-![Alt Text](assets/carbon.png)
-Error Response Format
-If validation fails, you get a clean array explaining exactly what went wrong:
+const app = Fastify();
 
-REQUIRED: Field is missing.
+app.post(
+  "/register",
+  { preHandler: fastifyAuthValidator({ email: true, password: true }) },
+  async (req, reply) => {
+    reply.send({ success: true, message: "User registered successfully" });
+  }
+);
 
-PATTERN: Invalid format (e.g., bad email).
+app.listen({ port: 3000 });
 
-MIN_LENGTH: Input is too short.
+## Error Response
+json{
+  "success": false,
+  "errors": [
+    {
+      "field": "email",
+      "code": "PATTERN",
+      "message": "Invalid email format"
+    }
+  ]
+}
 
-WEAK_PASSWORD: Password doesn't meet security standards.
+## Supported Fields
+<!-- AUTO-GENERATED-START -->
+<!-- AUTO-GENERATED-END -->
 
-
-[![Open Collective](https://opencollective.com/smart-auth-validator/backers/badge.svg)](#link)
-[![Open Collective](https://opencollective.com/smart-auth-validator/sponsors/badge.svg)](#link)
+## License
+ISC © Burhan Chughtai
