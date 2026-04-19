@@ -72,6 +72,55 @@ json{
 
 ## Supported Fields
 <!-- AUTO-GENERATED-START -->
+
+### 📦 Supported Fields
+
+### Identity
+
+| Field | Description |
+|-------|-------------|
+| `name` | Full name validation (min/max length, no special characters) |
+| `username` | Username validation (alphanumeric, underscores allowed) |
+| `email` | Email format validation (RFC-compliant) |
+| `password` | Strong password (min 8 chars, uppercase, number, special char) |
+
+### Contact
+
+| Field | Description |
+|-------|-------------|
+| `phone` | International phone number validation (E.164 format) |
+| `url` | URL format validation (http/https required) |
+
+### Address
+
+| Field | Description |
+|-------|-------------|
+| `street` | Street address validation |
+| `city` | City name validation |
+| `state` | State or province validation |
+| `postalCode` | Postal/ZIP code validation |
+
+### Finance
+
+| Field | Description |
+|-------|-------------|
+| `creditCard` | Credit card number validation (Luhn algorithm) |
+| `cvv` | CVV/CVC validation (3–4 digits) |
+
+### System
+
+| Field | Description |
+|-------|-------------|
+| `date` | Date format validation (YYYY-MM-DD) |
+| `time` | Time format validation (HH:MM or HH:MM:SS) |
+| `active` | Boolean active/inactive status validation |
+
+### Media
+
+| Field | Description |
+|-------|-------------|
+| `avatar` | Image validation (URL format, MIME type, size limits) |
+
 <!-- AUTO-GENERATED-END -->
 
 ## License
