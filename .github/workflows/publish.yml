@@ -20,15 +20,15 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Snyk Test
-        run: npx snyk test --dev || true
+        run: npx snyk test --dev
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Build
-        run: npm run build
+      - name: Run lint
+        run: npm run lint
 
       - name: Publish to NPM
         run: npm publish --access public
