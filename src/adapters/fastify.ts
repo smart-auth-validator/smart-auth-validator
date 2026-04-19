@@ -8,11 +8,15 @@ import {
 
 type Target = "body" | "query" | "params";
 
+interface ValidatedRequest extends FastifyRequest {
+  validated?: unknown;
+}
+
 export function fastifyAuthValidator(
   schema: ValidationSchema,
   target: Target = "body"
 ): preHandlerHookHandler {
-  return async (request: FastifyRequest, reply: FastifyReply) => {
+  return async (request: ValidatedRequest, reply: FastifyReply) => {
     const result = validate(
       schema,
       request[target] as Record<string, unknown>
@@ -25,7 +29,6 @@ export function fastifyAuthValidator(
       });
     }
 
-    // attach validated data (consistent with Express version)
-    (request as any).validated = result.data;
+    request.validated = result.data;
   };
 }
