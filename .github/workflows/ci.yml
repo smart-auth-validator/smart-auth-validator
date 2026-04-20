@@ -1,4 +1,4 @@
-name: CI - Test on Renovate Merge
+name: CI - Test Pipeline
 
 on:
   push:
@@ -9,9 +9,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,6 +22,7 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -31,10 +33,10 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Run lint
-        run: npm run lint
+        run: npm run lint --if-present
 
       - name: Run tests
-        run: npm run test
+        run: npm test --if-present
 
-      - name: Run build
-        run: npm run build
+      - name: Build project
+        run: npm run build --if-present
