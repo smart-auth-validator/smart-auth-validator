@@ -19,17 +19,6 @@ export const ERROR_MESSAGES: Record<ValidationErrorCode, ErrorMessageBuilder> =
     PATTERN: (field) =>
       `${field} format is invalid`,
 
-    WEAK_PASSWORD: () =>
-      "Password too weak — needs 8+ chars, 1 uppercase, 1 lowercase, 1 number, 1 special character",
-
-    // Phone number failed international/local format check
-    INVALID_PHONE: () =>
-      "Phone must be a valid international or local number (e.g. +923001234567)",
-
-    // URL didn't pass format validation
-    INVALID_URL: () =>
-      "URL must be valid (e.g. https://example.com)",
-
     INVALID_IMAGE: (field) =>
       `${field} must be a valid image object`,
 

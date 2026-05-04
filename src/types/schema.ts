@@ -1,57 +1,44 @@
-export type RuleMessage = {
-  required?: string;
-  min?: string;
-  max?: string;
-  pattern?: string;
-};
-
-export type FieldRule = {
-  min?: number;
-  max?: number;
-  regex?: RegExp;
-  messages?: Partial<Record<ValidationErrorCode, string>>; 
-  transform?: (value: unknown) => unknown;
-};
-
-export type Schema =
-  | boolean
-  | {
-      min?: number;
-      max?: number;
-    };
-
-export interface ValidationSchema {
-  [field: string]: FieldRule | Schema | boolean;
-}
-
 export type ValidationErrorCode =
   | "REQUIRED"
   | "INVALID_TYPE"
   | "MIN_LENGTH"
   | "MAX_LENGTH"
   | "PATTERN"
-  | "WEAK_PASSWORD"
-  | "INVALID_PHONE"
-  | "INVALID_URL"
   | "INVALID_IMAGE"
   | "IMAGE_TOO_LARGE"
   | "UNSUPPORTED_IMAGE_TYPE";
 
-
 export interface ValidationError {
   field: string;
-  code: ValidationErrorCode;  
-  message: string;            
+  code: ValidationErrorCode;
+  message: string;
 }
 
 export interface ValidationResult<T> {
-  success: boolean;           
-  data?: T; 
+  success: boolean;
+  data?: T;
   errors?: ValidationError[];
 }
 
-export interface ImagePayload {
-  url: string;
-  mimeType?: string;
-  sizeKB?: number;
-}
+export type FieldRule = {
+  min?: number;
+  max?: number;
+  regex?: RegExp;
+  transform?: (value: unknown) => unknown;
+  messages?: Partial<Record<ValidationErrorCode, string>>;
+};
+
+export type ValidationSchema = {
+  [field: string]: true | FieldRule;
+};
+
+type InferRule<T> =
+  T extends { transform: (v: any) => infer R }
+    ? R
+    : T extends true
+    ? unknown
+    : string;
+
+export type InferSchema<T extends ValidationSchema> = {
+  [K in keyof T]: InferRule<T[K]>;
+};

@@ -1,70 +1,67 @@
 import {
-  applyRule,
-  createError,
-  FieldRule,
-  RULES,
-  ValidationError,
-  ValidationResult,
   ValidationSchema,
-} from "../shared";
+  ValidationResult,
+  ValidationError,
+  InferSchema,
+  FieldRule,
+} from "../types/schema";
 
-export function validate<T extends Record<string, unknown>>(
-  schema: ValidationSchema,
-  data: T
-): ValidationResult<Partial<T>> {
+import { applyRule } from "./rule-engine";
+
+export function validate<T extends ValidationSchema>(
+  schema: T,
+  data: Record<string, unknown>
+): ValidationResult<InferSchema<T>> {
+
   const errors: ValidationError[] = [];
-  const validData: Partial<T> = {};
+  const result: Record<string, unknown> = {};
 
-  for (const field of Object.keys(schema) as Array<keyof T>) {
-    const rule = resolveRule(field as string, schema[field as string]);
+  for (const key in schema) {
+    const rule = schema[key];
+    const value = data[key];
 
-    if (!rule) {
-      errors.push(createError(field as string, "INVALID_TYPE"));
+    if (rule === true) {
+      if (value == null) {
+        errors.push({
+          field: key,
+          code: "REQUIRED",
+          message: `${key} is required`,
+        });
+        continue;
+      }
+
+      result[key] = value;
       continue;
     }
-
-    const rawValue = data[field];
-    const transformedValue = transformValue(rawValue, rule);
-
-    const error = applyRule(field as string, transformedValue, rule);
+    const error = applyRule(
+      key,
+      value,
+      rule as FieldRule
+    );
 
     if (error) {
       errors.push(error);
       continue;
     }
 
-    validData[field] = transformedValue;
+    const r = rule as FieldRule;
+
+    if (r?.transform) {
+      result[key] = r.transform(value);
+    } else {
+      result[key] = value;
+    }
   }
 
-  return buildResult(errors, validData);
-}
-
-function resolveRule(
-  field: string,
-  schemaRule: ValidationSchema[string]
-): FieldRule | undefined {
-  if (typeof schemaRule === "boolean") {
-    return RULES[field];
+  if (errors.length > 0) {
+    return {
+      success: false,
+      errors,
+    };
   }
 
-  return RULES[field] ?? (schemaRule as FieldRule);
-}
-
-function transformValue<T>(
-  value: T,
-  rule: FieldRule
-): T {
-  if (rule.transform && value !== undefined) {
-    return rule.transform(value) as T;
-  }
-  return value;
-}
-
-function buildResult<T>(
-  errors: ValidationError[],
-  data: Partial<T>
-): ValidationResult<Partial<T>> {
-  return errors.length > 0
-    ? { success: false, errors }
-    : { success: true, data };
+  return {
+    success: true,
+    data: result as InferSchema<T>,
+  };
 }

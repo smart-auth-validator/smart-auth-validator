@@ -38,3 +38,5 @@ export { booleanRule } from "../rules/booleanRule";
 export { imageRule } from "../rules/imageRule";
 
 export { validate } from "../core/validate";
+export { expressAuthValidator } from "../adapters/express";
+export { fastifyAuthValidator } from "../adapters/fastify";

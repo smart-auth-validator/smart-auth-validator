@@ -1,34 +1,35 @@
-import {
-  FastifyReply,
-  FastifyRequest,
-  preHandlerHookHandler,
-  validate,
-  ValidationSchema,
-} from "../shared";
+import { FastifyRequest, FastifyReply } from "fastify";
+import { validate } from "../core/validate";
+import { InferSchema, ValidationSchema } from "../types/schema";
 
 type Target = "body" | "query" | "params";
 
-interface ValidatedRequest extends FastifyRequest {
-  validated?: unknown;
-}
+type TypedRequest<T extends ValidationSchema> = FastifyRequest & {
+  validated?: InferSchema<T>;
+};
 
-export function fastifyAuthValidator(
-  schema: ValidationSchema,
+export function fastifyAuthValidator<T extends ValidationSchema>(
+  schema: T,
   target: Target = "body"
-): preHandlerHookHandler {
-  return async (request: ValidatedRequest, reply: FastifyReply) => {
-    const result = validate(
-      schema,
-      request[target] as Record<string, unknown>
-    );
+) {
+  return async (req: TypedRequest<T>, reply: FastifyReply) => {
+
+    const source =
+      target === "body"
+        ? req.body
+        : target === "query"
+        ? req.query
+        : req.params;
+
+    const result = validate(schema, source as Record<string, unknown>);
 
     if (!result.success) {
       return reply.status(400).send({
-        status: "fail",
+        success: false,
         errors: result.errors,
       });
     }
 
-    request.validated = result.data;
+    req.validated = result.data;
   };
 }
